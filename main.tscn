@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://d3ym53keo6o5b"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_nosat"]
+
+[node name="Main" type="Node"]
+script = ExtResource("1_nosat")
+
+[node name="PuzzleArea" type="Node2D" parent="."]
+position = Vector2(500, 25)
+
+[node name="ColorRect" type="ColorRect" parent="PuzzleArea"]
+offset_right = 600.0
+offset_bottom = 600.0
+color = Color(0.627451, 0.054902, 0, 1)
