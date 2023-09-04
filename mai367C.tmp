@@ -1,8 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://d3ym53keo6o5b"]
+[gd_scene load_steps=3 format=3 uid="uid://d3ym53keo6o5b"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_nosat"]
 [ext_resource type="PackedScene" uid="uid://bm3lu3pu3ef7p" path="res://scenes/field_manager.tscn" id="2_0v87m"]
-[ext_resource type="PackedScene" uid="uid://cpnf5bpoqbmoy" path="res://scenes/debug_display.tscn" id="3_bo4in"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_nosat")
@@ -16,6 +15,3 @@ position = Vector2(500, 25)
 offset_right = 600.0
 offset_bottom = 600.0
 color = Color(0.627451, 0.054902, 0, 1)
-
-[node name="DebugDisplay" parent="." instance=ExtResource("3_bo4in")]
-position = Vector2(125, 119)

@@ -2,6 +2,9 @@ extends Node2D
 
 class_name TileObject
 
+signal start_fall(grid_x: int, grid_y: int)
+signal stop_fall(grid_x: int, grid_y: int)
+
 const GRAVITY_Y = 0.1
 const OFFSET_X = 150
 const OFFSET_Y = 150
@@ -31,11 +34,10 @@ func grid_to_world(gx:float, gy:float) -> Vector2:
 	return Vector2(wx, wy)
 
 
-func is_collision_under_tile()->bool:
+func _is_collision_under_tile()->bool:
 	var tiles = get_tree().get_nodes_in_group("tile")
 	for tile in tiles :
 		var instance_id = tile.get_instance_id()
-		
 		var tile_x = tile.get_grid_x()
 		var tile_y = tile.get_grid_y()
 		
@@ -51,20 +53,14 @@ func is_collision_under_tile()->bool:
 		var myself_bottom = _grid_y + 0.5
 		var other_upper = tile_y - 0.5
 		if myself_bottom > other_upper:
-#			# 更新タイミングの関係でめり込んでいたら押し返す.
-#			_grid_y -= (myself_bottom - other_upper)
-#
 			return true
-			
-	return false
-	
-	
 		
+	return false
 
-	
-func round_grid() -> void:
-	_grid_x = round(_grid_x)
-	_grid_y = round(_grid_y)
+
+func floorf_grid() -> void:
+	_grid_x = floorf(_grid_x)
+	_grid_y = floorf(_grid_y)
 
 
 func get_grid_x() -> float:
@@ -76,22 +72,26 @@ func get_grid_y() -> float:
 func spawn_setting(x:float, y:float)->void:
 	_grid_y = y
 	_grid_x	= x
-	update_position()
+	_update_position()
 	
 
-func update_position():
+func _update_position():
 	position = grid_to_world(_grid_x, _grid_y)
 
 
-
-func can_fall()->bool:
+func _can_fall()->bool:
 	if _grid_y >= HEIGHT:
 		return false
-	if is_collision_under_tile():
+	if _is_collision_under_tile():
 		return false
-		
 	
 	return true
+
+
+
+
+func _ready()->void:
+	pass
 
 
 func _process(delta)->void:
@@ -100,17 +100,17 @@ func _process(delta)->void:
 		
 	match _state:
 		eState.FALLING:
-			if ! can_fall():
-				print("stanbay")
-				round_grid()
+			if ! _can_fall():
+				floorf_grid()
 				_velocity_y = 0.0
 				_state = eState.STANDBY
+				emit_signal("stop_fall", floori(_grid_x), floori(_grid_y))
 		eState.STANDBY:
-			if can_fall():
+			if _can_fall():
 				_state = eState.FALLING
-				print("can fall")
+				emit_signal("start_fall", floori(_grid_x), floori(_grid_y))
 			else:
 				_velocity_y = 0.0
-				round_grid()
+				floorf_grid()
 
-	update_position()
+	_update_position()
