@@ -12,4 +12,14 @@ func initialize_array():
 
 func get_field_array()->Array[int]:
 	return field_array
+	
+	
+func update_field_array(update_value: int, x: int, y: int)->void:
+	if  x < 0 || WIDTH <= x:
+		return
+		
+	if  y < 0 || HEIGHT <= y:
+		return
+	
+	field_array[x + y * WIDTH] = update_value
 

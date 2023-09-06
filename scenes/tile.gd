@@ -5,7 +5,7 @@ class_name TileObject
 signal start_fall(grid_x: int, grid_y: int)
 signal stop_fall(grid_x: int, grid_y: int)
 
-const GRAVITY_Y = 0.1
+const GRAVITY_Y = 0.001
 const OFFSET_X = 150
 const OFFSET_Y = 150
 const TILE_SIZE = 150
@@ -94,6 +94,29 @@ func _ready()->void:
 	pass
 
 
+func manual_process()->void:
+	_velocity_y += GRAVITY_Y * get_process_delta_time()
+	_grid_y += _velocity_y
+		
+	match _state:
+		eState.FALLING:
+			if ! _can_fall():
+				floorf_grid()
+				_velocity_y = 0.0
+				_state = eState.STANDBY
+				print("x%d"%floori(_grid_x))
+				print("y%d"%floori(_grid_y))
+				emit_signal("stop_fall", floori(_grid_x), floori(_grid_y))
+		eState.STANDBY:
+			if _can_fall():
+				_state = eState.FALLING
+				emit_signal("start_fall", floori(_grid_x), floori(_grid_y))
+			else:
+				_velocity_y = 0.0
+				floorf_grid()
+
+	_update_position()
+
 func _process(delta)->void:
 	_velocity_y += GRAVITY_Y * delta
 	_grid_y += _velocity_y
@@ -104,6 +127,8 @@ func _process(delta)->void:
 				floorf_grid()
 				_velocity_y = 0.0
 				_state = eState.STANDBY
+				print("x%d"%floori(_grid_x))
+				print("y%d"%floori(_grid_y))
 				emit_signal("stop_fall", floori(_grid_x), floori(_grid_y))
 		eState.STANDBY:
 			if _can_fall():

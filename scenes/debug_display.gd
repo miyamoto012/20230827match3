@@ -6,6 +6,7 @@ var _field_array: Array[int]
 var _width: int = 0
 var _height: int = 0
 
+
 func set_field_array(field_array: Array[int])->void:
 	_field_array = field_array.duplicate(true)
 	queue_redraw()
