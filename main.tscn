@@ -1,13 +1,13 @@
 [gd_scene load_steps=4 format=3 uid="uid://d3ym53keo6o5b"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_nosat"]
-[ext_resource type="PackedScene" uid="uid://bm3lu3pu3ef7p" path="res://scenes/field_manager.tscn" id="2_0v87m"]
+[ext_resource type="PackedScene" uid="uid://bm3lu3pu3ef7p" path="res://scenes/board_manager.tscn" id="2_vn8kt"]
 [ext_resource type="PackedScene" uid="uid://cpnf5bpoqbmoy" path="res://scenes/debug_display.tscn" id="3_bo4in"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_nosat")
 
-[node name="FieldManager" parent="." instance=ExtResource("2_0v87m")]
+[node name="BoardManager" parent="." instance=ExtResource("2_vn8kt")]
 
 [node name="PuzzleArea" type="Node2D" parent="."]
 position = Vector2(500, 25)

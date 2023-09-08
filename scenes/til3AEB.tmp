@@ -10,4 +10,3 @@ script = ExtResource("1_yq84n")
 tiles_png = Array[Resource]([ExtResource("2_x5ltm"), ExtResource("1_4eg84"), ExtResource("4_se2g6")])
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_x5ltm")

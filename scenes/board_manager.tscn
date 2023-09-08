@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bm3lu3pu3ef7p"]
+
+[ext_resource type="Script" path="res://scenes/board_manager.gd" id="1_ksk61"]
+
+[node name="BoardManager" type="Node"]
+script = ExtResource("1_ksk61")

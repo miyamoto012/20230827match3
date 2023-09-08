@@ -7,7 +7,7 @@ const TILE_SIZE = 150
 var tile_scene = preload("res://scenes/tile.tscn")
 @onready var _puzzle_area = $PuzzleArea
 @onready var _debug_display = $DebugDisplay
-@onready var _field_manager = $FieldManager
+@onready var _board_manager = $BoardManager
 
 
 # グリッド座標系をワールド座標系に変換する.
@@ -20,28 +20,28 @@ func grid_to_world(gx:float, gy:float) -> Vector2:
 
 func _ready()->void:
 	var tile_instance2 = tile_scene.instantiate() as Node2D
-	tile_instance2.spawn_setting(0.0, 1.0)
 	_puzzle_area.add_child(tile_instance2)
+	tile_instance2.spawn_setting(0.0, -1.0)	
 	tile_instance2.start_fall.connect(_on_tile_start_fall)
 	tile_instance2.stop_fall.connect(_on_tile_stop_fall)
 	
 	var tile_instance = tile_scene.instantiate() as Node2D
-	tile_instance.spawn_setting(0.0, 0.0)
 	_puzzle_area.add_child(tile_instance)
+	tile_instance.spawn_setting(0.0, -2.0)	
 	tile_instance.start_fall.connect(_on_tile_start_fall)
 	tile_instance.stop_fall.connect(_on_tile_stop_fall)
 	
-	_field_manager.initialize_array()
+	_board_manager.initialize_array()
 	
-	_debug_display.set_width(_field_manager.WIDTH)
-	_debug_display.set_height(_field_manager.HEIGHT)
-	_debug_display.set_field_array(_field_manager.get_field_array())
+	_debug_display.set_width(_board_manager.WIDTH)
+	_debug_display.set_height(_board_manager.HEIGHT)
+	_debug_display.set_board_array(_board_manager.get_board_array())
 
 
 func _process(delta):
 	_execute_tiles_manual_process()
 	
-	_debug_display.set_field_array(_field_manager.get_field_array())
+	_debug_display.set_board_array(_board_manager.get_board_array())
 
 
 func _execute_tiles_manual_process()->void:
@@ -65,8 +65,8 @@ func _on_tile_start_fall(grid_x: int, grid_y: int):
 	print("fall start")
 	
 
-func _on_tile_stop_fall(grid_x: int, grid_y: int):
-	_field_manager.update_field_array(1, grid_x, grid_y)
+func _on_tile_stop_fall(type_id: int, grid_x: int, grid_y: int):
+	_board_manager.update_board_array(type_id, grid_x, grid_y)
 	print("fall stop")
 
 
