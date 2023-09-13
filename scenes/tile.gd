@@ -66,7 +66,11 @@ func _is_collision_under_tile()->bool:
 		var myself_bottom = _grid_y + 0.5
 		var other_upper = tile_y - 0.5
 		if myself_bottom > other_upper:
-			return true
+			if tile.get_state() == eState.FALLING:
+				_grid_y -= (myself_bottom - other_upper)
+				return false
+			else:
+				return true
 		
 	return false
 
@@ -80,6 +84,9 @@ func get_grid_x() -> float:
 	return _grid_x
 func get_grid_y() -> float:
 	return _grid_y
+	
+func get_state()->eState:
+	return _state
 	
 
 func _update_position():
@@ -98,7 +105,7 @@ func _can_fall()->bool:
 
 
 func _ready()->void:
-	pass
+	_state = eState.STANDBY
 
 
 func manual_process()->void:
@@ -111,13 +118,16 @@ func manual_process()->void:
 				floorf_grid()
 				_velocity_y = 0.0
 				_state = eState.STANDBY
-				print("x%d"%floori(_grid_x))
-				print("y%d"%floori(_grid_y))
 				emit_signal("stop_fall", _type_id, floori(_grid_x), floori(_grid_y))
+				print("stop_fall")	
+				print("x:%.2f y:%.2f"% [_grid_x, _grid_y])
+				
 		eState.STANDBY:
 			if _can_fall():
 				_state = eState.FALLING
 				emit_signal("start_fall", floori(_grid_x), floori(_grid_y))
+				print("start_fall")	
+				print("x:%.2f y:%.2f"% [_grid_x, _grid_y])					
 			else:
 				_velocity_y = 0.0
 				floorf_grid()

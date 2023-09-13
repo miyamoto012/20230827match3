@@ -1,0 +1,29 @@
+[gd_scene load_steps=2 format=3 uid="uid://05nhfhmpfsl8"]
+
+[sub_resource type="GDScript" id="GDScript_f0whu"]
+script/source = "extends Node
+
+var number_of_tiles_x: Array[int] = []
+const WIDTH: int = 3
+
+func _ready()->void:
+	number_of_tiles_x.resize(WIDTH)
+	number_of_tiles_x.fill(0)
+
+
+func add_tile(x: int)->void:
+	number_of_tiles_x[x] += 1
+
+
+func subtract_tile(x: int)->void:
+	number_of_tiles_x[x] -= 1
+	
+	
+func spawn_tiles()->void:
+	pass
+	
+
+"
+
+[node name="SpawnManager" type="Node"]
+script = SubResource("GDScript_f0whu")

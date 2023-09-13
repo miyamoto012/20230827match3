@@ -8,14 +8,7 @@
 script = ExtResource("1_nosat")
 
 [node name="BoardManager" parent="." instance=ExtResource("2_vn8kt")]
-
-[node name="PuzzleArea" type="Node2D" parent="."]
-position = Vector2(500, 25)
-
-[node name="ColorRect" type="ColorRect" parent="PuzzleArea"]
-offset_right = 600.0
-offset_bottom = 600.0
-color = Color(0.627451, 0.054902, 0, 1)
+position = Vector2(500, 20)
 
 [node name="DebugDisplay" parent="." instance=ExtResource("3_bo4in")]
 position = Vector2(125, 119)
