@@ -102,8 +102,6 @@ func _can_fall()->bool:
 	return true
 
 
-
-
 func _ready()->void:
 	_state = eState.STANDBY
 
